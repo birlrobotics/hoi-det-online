@@ -582,9 +582,11 @@ class RoIHeads(torch.nn.Module):
             # keypoint_proposals = [p["boxes"] for p in result]
             keypoint_proposals = []
             for p in result:
+                temp = torch.empty((0,4)).to(p['boxes'].device)
                 for i, j in enumerate(p['labels']):
                     if j == 1:
-                        keypoint_proposals.append(p['boxes'][i][None,:])
+                        temp = torch.cat((temp, p['boxes'][i][None,:]))
+                keypoint_proposals.append(temp)
             if len(keypoint_proposals)==0:
                 result[0]["keypoints"] = None
                 return result, losses

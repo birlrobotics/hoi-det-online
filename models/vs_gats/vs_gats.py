@@ -82,26 +82,14 @@ class AGRNN(nn.Module):
         # get corresponding readout edge in the graph
         src_box_list = np.arange(roi_label.shape[0])
         for dst in h_node_list:
-            # if dst == roi_label.shape[0]-1:
-            #     continue
-            # src_box_list = src_box_list[1:]
-            # for src in src_box_list:
-            #     readout_edge_list.append((src, dst))
-            for src in src_box_list:
-                if dst != src:
-                    readout_edge_list.append((src, dst))
-
-        # get corresponding readout h_h edges && h_o edges
-        temp_h_node_list = h_node_list[:]
-        for dst in h_node_list:
-            if dst == h_node_list.shape[0]-1:
+            if dst == roi_label.shape[0]-1:
                 continue
-            temp_h_node_list = temp_h_node_list[1:]
-            for src in temp_h_node_list:
-                if src == dst: continue
-                readout_h_h_e_list.append((src, dst))
-
-        readout_h_o_e_list = [x for x in readout_edge_list if x not in readout_h_h_e_list]
+            src_box_list = src_box_list[1:]
+            for src in src_box_list:
+                readout_edge_list.append((src, dst))
+            # for src in src_box_list:
+            #     if dst != src:
+            #         readout_edge_list.append((src, dst))
 
         # add node space to match the batch graph
         h_node_list = (np.array(h_node_list)+node_space).tolist()
@@ -134,7 +122,7 @@ class AGRNN(nn.Module):
 
         # pass throuh gnn/gcn
         self.grnn1(batch_graph, batch_h_node_list, batch_obj_node_list, feat, spatial_feat, word2vec, validation, initial_feat=True)
-        batch_graph.apply_edges(self.edge_readout, tuple(zip(*(batch_readout_h_o_e_list+batch_readout_h_h_e_list))))
+        batch_graph.apply_edges(self.edge_readout, tuple(zip(*batch_readout_edge_list)))
 
         # import ipdb; ipdb.set_trace()
         if self.training or validation:

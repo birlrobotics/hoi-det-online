@@ -3,3 +3,5 @@ test_images
 
 !/checkpoints
 checkpoints/*
+
+results/*
