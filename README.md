@@ -30,10 +30,14 @@ This following diagram illustrates the main components of our system. For the ob
 - Results will be saved in `./results/` file.
 
 ## Demo
+This is a naive demo. `det_obj` shows the total numbers of detected objects, where the number in the bracket is for detected human. `det_hoi` means the number of detected HOIs.
+
+![demo](./assets/demo.gif)
+
 
 
 <!-- LINKER -->
 [pytorch]: https://pytorch.org/vision/stable/models.html#object-detection-instance-segmentation-and-person-keypoint-detection
 [vs-gats]: https://github.com/birlrobotics/vs-gats
 [pmn]: https://github.com/birlrobotics/PMN
-[checkpoints]: 
+<!-- [checkpoints]:  -->
