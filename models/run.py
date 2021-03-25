@@ -2,6 +2,7 @@
 import torch
 import torch.nn as nn
 import torchvision
+from torchvision.ops import boxes as box_ops
 
 import h5py
 import numpy as np
@@ -33,18 +34,22 @@ class HOI_DET_ONLINE_MODEL(nn.Module):
                 self.hoi_detector_pmn = self._load_hoi_detector_pmn(pretrained=PMN_CP).to(self.device).eval()
         
 
-    def forward(self, ori_img, action_threshold=0.5, show_line=True, show_pose=False):
+    def forward(self, ori_img, action_threshold=0.5, nms_threshold=0, show_line=True, show_pose=False):
         img = ori_img[:,:,::-1].copy()
         img_tensor = torchvision.transforms.functional.to_tensor(img).to(self.device)
         obj_pose_outputs, backbone_feats, img_sizes = self.obj_pose_detector([img_tensor])
         obj_boxes, obj_labels, obj_scores, pose = obj_pose_outputs[0]['boxes'], obj_pose_outputs[0]['labels'], \
                                                   obj_pose_outputs[0]['scores'], obj_pose_outputs[0]['keypoints']
+        keep = box_ops.nms(obj_boxes, obj_scores, nms_threshold)
+        obj_boxes, obj_labels, obj_scores = obj_boxes[keep], obj_labels[keep], obj_scores[keep]
+
         if self.obj_det_only:
             out_img = vis_tool.vis_img_frcnn(img, obj_boxes.cpu().detach().numpy(), obj_labels.cpu().detach().numpy(), pose=pose.cpu().detach().cpu().numpy(), score_thresh=0.8)
         else:
             # import ipdb; ipdb.set_trace()
             if not sum(obj_labels==1) or obj_labels.size(0) == 1:
                 return ori_img
+
             obj_boxes_feats = self.obj_pose_detector.roi_heads.box_roi_pool(backbone_feats, [obj_boxes], img_sizes)
             obj_boxes_feats = self.obj_pose_detector.roi_heads.box_head(obj_boxes_feats)
             

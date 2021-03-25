@@ -53,7 +53,7 @@ def hoi_det_online():
                 print("Miss a frames!!!")
                 continue
             t1 = time.time()
-            det_img = model(img, action_threshold=args.act_threshold, show_line=args.show_line, show_pose=args.show_pose)
+            det_img = model(img, action_threshold=args.act_threshold, nms_threshold=args.nms_threshold, show_line=args.show_line, show_pose=args.show_pose)
             t2 = time.time()
             mit = (mit*(n-1)+(t2-t1)) / n
             print(f"Moving mean inference time: {mit}s.")
@@ -77,7 +77,7 @@ def hoi_det_online():
         for i in img_list:
             # import ipdb; ipdb.set_trace()
             img = cv2.imread(os.path.join(data_dir, i))
-            det_img = model(img, action_threshold=args.act_threshold, show_line=args.show_line, show_pose=args.show_pose)
+            det_img = model(img, action_threshold=args.act_threshold, nms_threshold=args.nms_threshold, show_line=args.show_line, show_pose=args.show_pose)
             cv2.imshow('offline', det_img)
             if cv2.waitKey(1000) & 0xFF == ord('q'):
                 break
@@ -94,6 +94,7 @@ if __name__ == '__main__':
     parser.add_argument('--show_line', action='store_true', help='visulaize the line connecting the human and object')
     parser.add_argument('--show_pose', action='store_true', help='visulaize the detected human pose')
     parser.add_argument('--act_threshold', type=float, default=0.5, help='action threshold')
+    parser.add_argument('--nms_threshold', type=float, default=0.6, help='across class NMS threshold')
     args = parser.parse_args()
 
     hoi_det_online()
