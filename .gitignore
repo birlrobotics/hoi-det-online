@@ -1,7 +1,7 @@
 __pycache__
 test_images
 
-!/checkpoints
-checkpoints/*
+# !/checkpoints
+# checkpoints/*
 
-results/*
+# results/*
