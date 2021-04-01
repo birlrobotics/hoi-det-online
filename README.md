@@ -40,4 +40,4 @@ This is a naive demo. `det_obj` shows the total numbers of detected objects, whe
 [pytorch]: https://pytorch.org/vision/stable/models.html#object-detection-instance-segmentation-and-person-keypoint-detection
 [vs-gats]: https://github.com/birlrobotics/vs-gats
 [pmn]: https://github.com/birlrobotics/PMN
-<!-- [checkpoints]:  -->
+[checkpoints]: https://drive.google.com/drive/folders/19eq5o2BsmqjD4eebS-3xBIHl3PMyS5Yd?usp=sharing

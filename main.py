@@ -30,8 +30,8 @@ def hoi_det_online():
     if args.camera:
         key = str(time.time()).split('.')[-1]
         if args.save_img:
-            if not os.path.exists(f'./results/original_img/{key}'):
-                os.makedirs(f'./results/original_img/{key}')
+            # if not os.path.exists(f'./results/original_img/{key}'):
+            #     os.makedirs(f'./results/original_img/{key}')
             if not os.path.exists(f'./results/processed_img/{key}'):
                 os.makedirs(f'./results/processed_img/{key}')
         # reading image with camera
