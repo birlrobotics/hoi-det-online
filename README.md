@@ -13,13 +13,13 @@ This following diagram illustrates the main components of our system. For the ob
   Explanation of some options:
   > `--camera` : use the camera to detect in real. 
 
-  > `--use_pmn` : use the PMN model or not. (**Unavaliable. Something wrong in pose detector**)
+  > `--use_pmn` : use the PMN model or not. (**Stay tuned**)
 
   > `--act_threshold` : only the inferred action score exceed this threshold will be shown.
 
   > `--show_line` : visualize the linked line between the human and the corresponding interacted object.
 
-  > `--show_pose` : visualize the human pose. (**Unavaliable. Something wrong in pose detector**) 
+  > `--show_pose` : visualize the human pose. (**Stay tuned**) 
 
   > `--save_img` : save the original and processed images in `./results/` file.
 
